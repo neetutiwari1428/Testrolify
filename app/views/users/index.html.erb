@@ -1,0 +1,9 @@
+<% @users.each  do|user| %>
+    <% user.email %>
+    <% user.roles.pluck(:name) %><br/>
+    <%= link_to 'Edit', edit_user_path(user)%>
+    <% user.posts.pluck(:id) %><br/>
+    <%# <% user.creator_post.pluck(:id) %><br/> 
+    <%# <% user.editor_post.pluck(:id) %><br/> 
+    <br/>
+<% end %>

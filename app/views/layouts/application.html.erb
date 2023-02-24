@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Testrolify</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    <strong>User</strong><br/>
+    <% if user_signed_in? %>
+      Are you admin? <%= current_user.has_role? :admin %>
+      <%= current_user.roles.pluck(:name) %>
+      <%= link_to current_user.email, edit_user_registration_path ,class: "#{'font-weight-bold' if current_page?(edit_user_registration_path)}"%>
+      <% link_to "log_out", destroy_user_session_path ,method: :delete%>
+    <%else%>
+      <% link_to "Sign in", new_user_session_path ,class:"#{font-weight-bold} if current_page?(new_user_session_path)"%>
+    <% end %>
+    <hr>
+    <%= yield %>
+  </body>
+</html>
