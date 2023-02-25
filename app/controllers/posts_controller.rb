@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  authorize_resource class: false
   before_action :set_post, only: %i[ show edit update destroy ]
 
   # GET /posts or /posts.json
@@ -8,6 +9,8 @@ class PostsController < ApplicationController
 
   # GET /posts/1 or /posts/1.json
   def show
+    @post = Post.find(params[:id])
+    authorize! :read, @post
   end
 
   # GET /posts/new
@@ -17,6 +20,11 @@ class PostsController < ApplicationController
 
   # GET /posts/1/edit
   def edit
+  end
+
+  def admin_list
+    authorize Post # we don't have a particular post to authorize
+    # Rest of controller action
   end
 
   # POST /posts or /posts.json
@@ -58,15 +66,28 @@ class PostsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  def update
+    @post = Post.find(params[:id])
+    if @post.update(post_params)
+      redirect_to @post
+    else
+      render :edit
+    end
+  end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_post
-      @post = Post.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def post_params
-      params.require(:post).permit(:title, :content)
-    end
-end
+  def post_params
+    params.require(:post).permit(policy(@post).permitted_attributes)
+  end
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_post
+    @post = Post.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  # def post_params
+  #   params.require(:post).permit(:title, :content)
+  # end
+  end

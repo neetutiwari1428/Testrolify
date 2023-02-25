@@ -7,4 +7,10 @@
   <%= link_to "Back to posts", posts_path %>
 
   <%= button_to "Destroy this post", @post, method: :delete %>
+  <% if can? :read, @post %>
+    <%= link_to "View", @post %>
+  <% end %>
+  <% if policy(@post).update? %>
+  <%= link_to "Edit post", edit_post_path(@post) %>
+<% end %>
 </div>

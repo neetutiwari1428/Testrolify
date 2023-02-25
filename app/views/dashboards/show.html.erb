@@ -1,0 +1,7 @@
+# In views
+<% if policy(:dashboard).show? %>
+  <%= link_to 'Dashboard', dashboard_path %>
+<% end %>
+<% policy_scope(@user.posts).each do |post| %>
+  <p><%= link_to post.title, post_path(post) %></p>
+<% end %>

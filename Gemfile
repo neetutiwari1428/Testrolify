@@ -73,3 +73,7 @@ end
 gem 'devise'
 gem 'faker'
 gem 'rolify'
+gem 'cancancan'
+
+gem "pundit", "~> 2.3"
+gem 'rspec-rails', '~> 3.4', '>= 3.4.2'

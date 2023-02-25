@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
+    before_action :authenticate_user! , only: [:new, :update]
     def index
-        @users = User.order(created_at: :desc)
+        # @users = User.order(created_at: :desc)
+        @users = User.all
     end
     def new
         @user = User.new(params[:id])
